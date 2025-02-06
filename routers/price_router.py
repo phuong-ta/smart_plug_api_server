@@ -23,7 +23,10 @@ async def get_electric_price(
             raise HTTPException(status_code=response.status_code, detail="Error fetching data from API")
         
         # Return the data received from the API
-        return response.json()
+        data = response.json()
+        price_list = [list(item.values())[0] for item in data]
+        
+        return price_list
     
     except requests.exceptions.RequestException as e:
         # Handle request exceptions (network issues, invalid URL, etc.)
