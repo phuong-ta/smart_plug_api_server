@@ -3,3 +3,4 @@ requests
 databases
 asyncpg
 sqlalchemy
+psycopg2
