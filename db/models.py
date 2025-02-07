@@ -2,9 +2,11 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime, Foreign
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from databases import Database
-from .db import database, DATABASE_URL
 import os
 
+
+DATABASE_URL = os.getenv("DB_INTERNAL_URL")
+database = Database(DATABASE_URL)
 # Create an engine
 engine = create_engine(DATABASE_URL, echo=True)
 
