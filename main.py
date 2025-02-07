@@ -8,13 +8,9 @@ from databases import Database
 
 from routers.price_router import price_router
 from routers.booking_router import booking_router
-#from .db.db import database
+from db.db import database
 
-from.db.models import Booking
-
-
-DATABASE_URL = os.getenv("DB_INTERNAL_URL")
-database = Database(DATABASE_URL)
+from db.models import Booking
 
 
 @asynccontextmanager
