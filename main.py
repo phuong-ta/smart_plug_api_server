@@ -8,15 +8,15 @@ from databases import Database
 
 from routers.price_router import price_router
 from routers.booking_router import booking_router
+from .db.db import database
 
-DATABASE_URL = os.getenv("DB_INTERNAL_URL")
-database = Database(DATABASE_URL)
-
+from.db.models import Booking
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     try:
         # Connect to the database asynchronously
         await database.connect()
+        Booking.create_table()
         print("Connected to the database")
         yield
     except Exception as e:
