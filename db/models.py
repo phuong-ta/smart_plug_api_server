@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey
-from database import Base, engine
+from .database import Base, engine
 
 # Define the Booking model (table)
 class Booking(Base):
