@@ -26,6 +26,7 @@ class Booking(Base):
     def create_table():
         Base.metadata.create_all(bind=engine)
 
+
 # Create a sessionmaker
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
