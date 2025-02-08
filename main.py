@@ -18,7 +18,7 @@ async def lifespan(app: FastAPI):
     try:
         # Connect to the database asynchronously
         await database.connect()
-        Booking.create_table()
+        #Booking.create_table()
         print("Connected to the database")
         yield
     except Exception as e:

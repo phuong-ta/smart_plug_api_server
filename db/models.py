@@ -6,7 +6,6 @@ from db.db import DATABASE_URL
 import os
 
 
-
 # Create an engine
 engine = create_engine(DATABASE_URL, echo=True)
 
@@ -26,4 +25,6 @@ class Booking(Base):
     def create_table():
         Base.metadata.create_all(bind=engine)
 
+# Create a sessionmaker
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
