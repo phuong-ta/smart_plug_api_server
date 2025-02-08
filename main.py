@@ -1,16 +1,11 @@
-from typing import Optional
 from contextlib import asynccontextmanager
-import asyncio
-import os
 
 from fastapi import FastAPI
-from databases import Database
 
 from routers.price_router import price_router
 from routers.booking_router import booking_router
 from db.db import database
 
-from db.models import Booking
 
 
 @asynccontextmanager

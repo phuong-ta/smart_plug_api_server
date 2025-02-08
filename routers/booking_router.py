@@ -2,8 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from datetime import datetime
 from typing import List
-from db.models import Booking
-from db.booking_crud import create_booking, get_booking_by_id, get_all_bookings, update_booking, delete_booking
+from db.models import Booking, create_booking, get_booking_by_id, get_all_bookings, update_booking, delete_booking
 from db import SessionLocal
 
 # Initialize the APIRouter for bookings
