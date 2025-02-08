@@ -16,28 +16,28 @@ def get_db():
         db_session.close()
 
 # 1. Create a new booking
-@booking_router.post("/bookings/", response_model=Booking)
-def create_booking_endpoint(charger_id: str, start_time: datetime, end_time: datetime, db: Session = Depends(get_db)):
+@booking_router.post("/bookings/")
+async def create_booking_endpoint(charger_id: str, start_time: datetime, end_time: datetime, db: Session = Depends(get_db)) -> Booking:
     new_booking = create_booking(db, charger_id, start_time, end_time)
     return new_booking
 
 # 2. Get a booking by ID
-@booking_router.get("/bookings/{booking_id}", response_model=Booking)
-def get_booking_endpoint(booking_id: int, db: Session = Depends(get_db)):
+@booking_router.get("/bookings/{booking_id}")
+async def get_booking_endpoint(booking_id: int, db: Session = Depends(get_db)) -> Booking:
     booking = get_booking_by_id(db, booking_id)
     if not booking:
         raise HTTPException(status_code=404, detail="Booking not found")
     return booking
 
 # 3. Get all bookings
-@booking_router.get("/bookings/", response_model=List[Booking])
-def get_all_bookings_endpoint(db: Session = Depends(get_db)):
+@booking_router.get("/bookings/")
+async def get_all_bookings_endpoint(db: Session = Depends(get_db)) -> List[Booking]:
     bookings = get_all_bookings(db)
     return bookings
 
 # 4. Update a booking by ID
-@booking_router.put("/bookings/{booking_id}", response_model=Booking)
-def update_booking_endpoint(booking_id: int, charger_id: str = None, start_time: datetime = None, end_time: datetime = None, db: Session = Depends(get_db)):
+@booking_router.put("/bookings/{booking_id}")
+def update_booking_endpoint(booking_id: int, charger_id: str = None, start_time: datetime = None, end_time: datetime = None, db: Session = Depends(get_db)) -> Booking:
     updated_booking = update_booking(db, booking_id, charger_id, start_time, end_time)
     if not updated_booking:
         raise HTTPException(status_code=404, detail="Booking not found")
