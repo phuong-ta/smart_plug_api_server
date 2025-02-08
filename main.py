@@ -4,8 +4,7 @@ from fastapi import FastAPI
 
 from routers.price_router import price_router
 from routers.booking_router import booking_router
-from db.db import database
-
+from db.database import database
 
 
 @asynccontextmanager
