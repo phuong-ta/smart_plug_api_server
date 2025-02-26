@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import DateTime, desc
+from sqlalchemy import DateTime, desc, asc
 from . import models, schemas
+from datetime import datetime
+
 
 def get_booking_by_id(db: Session, booking_id: int):
     return db.query(models.Booking).filter(models.Booking.id == booking_id).all()
@@ -34,3 +36,8 @@ def delete_booking(db: Session, booking_id: int):
 
 def get_newest_booking_by_id(db: Session, booking_id: int):
     return db.query(models.Booking).filter(models.Booking.id == booking_id).order_by(desc(models.Booking.start_time)).first()
+
+# Get the nearest booking time for a given charger ID
+def get_nearest_booking_by_charger_id(db: Session, charger_id: int):
+    current_time = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+    return db.query(models.Booking).filter(models.Booking.charger_id == charger_id, models.Booking.start_time >= current_time).order_by(asc(models.Booking.start_time)).first()
