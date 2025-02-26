@@ -5,8 +5,8 @@ class EnergyReportBase(BaseModel):
     charger_id: int
     start_time: datetime
     end_time: datetime
-    energy_consume = float
-    price = float
+    energy_consume: float
+    price: float
 
 class EnergyReportCreate(EnergyReportBase):
     pass
