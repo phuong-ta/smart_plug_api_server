@@ -40,13 +40,4 @@ def get_newest_booking_by_id(db: Session, charger_id: int):
     return db.query(models.Booking).filter(models.Booking.charger_id == charger_id).order_by(desc(models.Booking.start_time)).first()
 
 def get_nearest_booking_by_charger_id(db: Session, charger_id: int):
-    now = datetime.now().replace(microsecond=0)  # Use UTC and remove microseconds
-    print("Current UTC Time:", now)  # Debugging
-
-    result = db.query(models.Booking)\
-        .filter(models.Booking.charger_id == charger_id, models.Booking.start_time >= now)\
-        .order_by(asc(models.Booking.start_time))\
-        .all()  # Use .all() for debugging
-    
-    print("Query Result:", result)  # Debugging
-    return result[0] if result else None
+    return db.query(models.Booking).filter(models.Booking.charger_id == charger_id).order_by(asc(models.Booking.start_time)).first()
