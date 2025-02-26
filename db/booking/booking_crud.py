@@ -36,8 +36,8 @@ def delete_booking(db: Session, booking_id: int):
         db.commit()
     return db_booking
 
-def get_newest_booking_by_id(db: Session, booking_id: int):
-    return db.query(models.Booking).filter(models.Booking.id == booking_id).order_by(desc(models.Booking.start_time)).first()
+def get_newest_booking_by_id(db: Session, charger_id: int):
+    return db.query(models.Booking).filter(models.Booking.id == charger_id).order_by(desc(models.Booking.start_time)).first()
 
 # Get the nearest booking time for a given charger ID
 def get_nearest_booking_by_charger_id(db: Session, charger_id: int):

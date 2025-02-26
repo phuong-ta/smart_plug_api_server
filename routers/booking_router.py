@@ -42,9 +42,9 @@ def delete_booking(booking_id: int, db: Session = Depends(get_db)):
     return db_booking
 
 # Get a newest booking by ID
-@booking_router.get("/newest/{booking_id}", response_model=schemas.Booking)
-def read_booking(booking_id: int, db: Session = Depends(get_db)):
-    booking = booking_crud.get_newest_booking_by_id(db, booking_id=booking_id)
+@booking_router.get("/newest/{charger_id}", response_model=schemas.Booking)
+def read_booking(charger_id: int, db: Session = Depends(get_db)):
+    booking = booking_crud.get_newest_booking_by_id(db, charger_id=charger_id)
     if booking is None:
         raise HTTPException(status_code=404, detail="Booking not found")
     return booking
@@ -55,3 +55,4 @@ def get_nearest_booking(charger_id: int, db: Session = Depends(get_db)):
     if booking is None:
         raise HTTPException(status_code=404, detail="Booking not found")
     return booking
+

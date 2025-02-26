@@ -15,7 +15,7 @@ async def lifespan(app: FastAPI):
     try:
         # Connect to the database asynchronously
         await database.connect()
-        Booking.create_table()
+        #Booking.create_table()
         #EnergyReport.create_energy_table()
         print("Connected to the database")
         yield
