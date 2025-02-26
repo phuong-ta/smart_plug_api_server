@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import DateTime, desc
 from . import models, schemas
 
 def get_booking_by_id(db: Session, booking_id: int):
-    return db.query(models.Booking).filter(models.Booking.id == booking_id).first()
+    return db.query(models.Booking).filter(models.Booking.id == booking_id).all()
 
 def get_bookings(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Booking).offset(skip).limit(limit).all()
@@ -30,3 +31,6 @@ def delete_booking(db: Session, booking_id: int):
         db.delete(db_booking)
         db.commit()
     return db_booking
+
+def get_newest_booking_by_id(db: Session, booking_id: int):
+    return db.query(models.Booking).filter(models.Booking.id == booking_id).order_by(desc(models.Booking.start_time)).first()
