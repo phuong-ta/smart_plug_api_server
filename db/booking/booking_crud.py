@@ -40,7 +40,9 @@ def get_newest_booking_by_id(db: Session, charger_id: int):
     return db.query(models.Booking).filter(models.Booking.charger_id == charger_id).order_by(desc(models.Booking.start_time)).first()
 
 def get_nearest_booking_by_charger_id(db: Session, charger_id: int):
-    return db.query(models.Booking)\
+    result = db.query(models.Booking)\
         .filter(models.Booking.charger_id == charger_id, models.Booking.start_time >= datetime.now())\
         .order_by(asc(models.Booking.start_time))\
-        .first()
+        .all()  # Get all matching bookings
+    print("Query Result:", result)  # Debugging
+    return result[0] if result else None  # Safely return first result
