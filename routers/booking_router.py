@@ -49,7 +49,7 @@ def read_booking(booking_id: int, db: Session = Depends(get_db)):
     return booking
 
 @booking_router.get("/nearest/{charger_id}", response_model=schemas.Booking)
-def get_nearest_booking(charger_id: int, db: Session = Depends(get_db)):
+def get_nearest_booking(charger_id: str, db: Session = Depends(get_db)):
     booking = booking_crud.get_nearest_booking_by_charger_id(db, charger_id=charger_id)
     if booking is None:
         raise HTTPException(status_code=404, detail="Booking not found")
