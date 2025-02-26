@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import desc
 from fastapi import APIRouter, Depends, HTTPException
 from ..db.database import get_db
 from ..db.energy import models, schemas, energy_curd
