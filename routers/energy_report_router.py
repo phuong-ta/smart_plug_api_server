@@ -32,5 +32,5 @@ def read_energy_report(report_id: int, db: Session = Depends(get_db)):
 
 # Get reports by charger ID
 @energy_router.get("/charger/{charger_id}", response_model=list[schemas.EnergyReport])
-def read_reports_by_charger_id(charger_id: str, db: Session = Depends(get_db)):
+def read_reports_by_charger_id(charger_id: int, db: Session = Depends(get_db)):
     return energy_curd.get_reports_by_charger_id(db, charger_id=charger_id)

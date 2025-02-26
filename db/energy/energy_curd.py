@@ -34,5 +34,5 @@ def delete_energy_report(db: Session, report_id: int):
         db.commit()
     return report
 
-def get_reports_by_charger_id(db: Session, charger_id: str):
+def get_reports_by_charger_id(db: Session, charger_id: int):
     return db.query(models.EnergyReport).filter(models.EnergyReport.charger_id == charger_id).all()
