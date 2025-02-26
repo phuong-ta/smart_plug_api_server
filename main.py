@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from routers.price_router import price_router
 from routers.booking_router import booking_router
 from db.database import database
+from db.energy.models import EnergyReport
 
 
 @asynccontextmanager
@@ -13,6 +14,7 @@ async def lifespan(app: FastAPI):
         # Connect to the database asynchronously
         await database.connect()
         #Booking.create_table()
+        EnergyReport.create_energy_table()
         print("Connected to the database")
         yield
     except Exception as e:
