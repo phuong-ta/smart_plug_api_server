@@ -1,8 +1,7 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import desc
 from fastapi import APIRouter, Depends, HTTPException
-from ..db.energy import energy_curd, schemas
 from ..db.database import get_db
+from ..db.energy import models, schemas, energy_curd
 
 energy_router = APIRouter(prefix="/energy_reports", tags=["energy_reports"])
 
