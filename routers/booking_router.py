@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from db import booking_crud, schemas
+from db.booking import schemas
+from db.booking import booking_crud
 from db.database import get_db
 
 booking_router = APIRouter(prefix="/bookings", tags=["bookings"])
@@ -49,7 +50,7 @@ def read_booking(booking_id: int, db: Session = Depends(get_db)):
     return booking
 
 @booking_router.get("/nearest/{charger_id}", response_model=schemas.Booking)
-def get_nearest_booking(charger_id: str, db: Session = Depends(get_db)):
+def get_nearest_booking(charger_id: int, db: Session = Depends(get_db)):
     booking = booking_crud.get_nearest_booking_by_charger_id(db, charger_id=charger_id)
     if booking is None:
         raise HTTPException(status_code=404, detail="Booking not found")
