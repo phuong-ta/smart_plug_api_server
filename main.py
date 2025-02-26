@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from routers.price_router import price_router
 from routers.booking_router import booking_router
+from routers.energy_report_router import energy_router
 from db.database import database
 from db.energy.models import EnergyReport
 
@@ -14,7 +15,7 @@ async def lifespan(app: FastAPI):
         # Connect to the database asynchronously
         await database.connect()
         #Booking.create_table()
-        EnergyReport.create_energy_table()
+        #EnergyReport.create_energy_table()
         print("Connected to the database")
         yield
     except Exception as e:
@@ -29,6 +30,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.include_router(price_router)
 app.include_router(booking_router)
+app.include_router(energy_router)
 
 
 @app.get("/")
