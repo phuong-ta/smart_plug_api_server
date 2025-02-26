@@ -3,7 +3,7 @@ from sqlalchemy import DateTime, desc, asc
 
 from . import models
 from . import schemas
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def get_booking_by_id(db: Session, booking_id: int):
@@ -40,9 +40,13 @@ def get_newest_booking_by_id(db: Session, charger_id: int):
     return db.query(models.Booking).filter(models.Booking.charger_id == charger_id).order_by(desc(models.Booking.start_time)).first()
 
 def get_nearest_booking_by_charger_id(db: Session, charger_id: int):
+    now = datetime.now().replace(microsecond=0)  # Use UTC and remove microseconds
+    print("Current UTC Time:", now)  # Debugging
+
     result = db.query(models.Booking)\
-        .filter(models.Booking.charger_id == charger_id, models.Booking.start_time >= datetime.now())\
+        .filter(models.Booking.charger_id == charger_id, models.Booking.start_time >= now)\
         .order_by(asc(models.Booking.start_time))\
-        .all()  # Get all matching bookings
+        .all()  # Use .all() for debugging
+    
     print("Query Result:", result)  # Debugging
-    return result[0] if result else None  # Safely return first result
+    return result[0] if result else None
