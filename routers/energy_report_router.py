@@ -42,5 +42,6 @@ def read_reports_by_charger_id(charger_id: int, db: Session = Depends(get_db)):
 # Get a specific energy report by ID
 @energy_router.get("/energy_consumption/{charger_id}", response_model=list[schemas.EnergyReport])
 def read_reports_by_charger_id(charger_id: int, db: Session = Depends(get_db)):
-    charger_report = energy_curd.get_monthly_energy_consumption_by_id(db, charger_id=charger_id)
-    return {"total": charger_report}
+    energy_consumption = energy_curd.get_monthly_energy_consumption_by_id(db, charger_id=charger_id)
+    print(f"charger_report: {energy_consumption}")
+    return {"charger_id": charger_id, "total_energy_this_month": energy_consumption}  # Return as a dict
