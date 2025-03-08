@@ -46,4 +46,4 @@ def read_reports_by_charger_id(charger_id: int, db: Session = Depends(get_db)):
     print(f"charger_report: {energy_consumption}")
     #return energy_curd.get_monthly_energy_consumption_by_id(db, charger_id=charger_id) # Return as a dict
 
-    return {"charger_id": charger_id, "total_energy_this_month": energy_consumption}  # Return as a dict
+    return {"unicorn_name": "hello"}
