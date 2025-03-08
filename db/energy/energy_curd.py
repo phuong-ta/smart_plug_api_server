@@ -53,15 +53,13 @@ def get_monthly_energy_consumption_by_id(db: Session, charger_id: int):
     current_year = datetime.now(timezone.utc).year
     current_month = datetime.now(timezone.utc).month
 
-    # Ensure charger_id is treated as a string if necessary
     total_energy = (
         db.query(func.sum(models.EnergyReport.energy_consume))
         .filter(
-            cast(models.EnergyReport.charger_id, String) == str(charger_id),  # Fix type issue
-            extract('year', models.EnergyReport.start_time) == current_year,
-            extract('month', models.EnergyReport.start_time) == current_month
+            cast(models.EnergyReport.charger_id, String) == str(charger_id),
+            extract("year", models.EnergyReport.start_time) == current_year,
+            extract("month", models.EnergyReport.start_time) == current_month
         )
         .scalar()
     )
-
     return total_energy if total_energy else 0.0

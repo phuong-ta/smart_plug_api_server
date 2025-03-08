@@ -42,18 +42,5 @@ def read_reports_by_charger_id(charger_id: int, db: Session = Depends(get_db)):
 # Get a specific energy report by ID
 @energy_router.get("/energy_consumption/{charger_id}", response_model=list[schemas.EnergyReport])
 def read_reports_by_charger_id(charger_id: int, db: Session = Depends(get_db)):
-    charger_report = energy_curd.get_reports_by_charger_id(db, charger_id=charger_id)
-    if charger_report is None:
-        raise HTTPException(status_code=404, detail="Energy Report not found")
-
-    # Get the current month and year
-    current_month = datetime.now().month
-    current_year = datetime.now().year
-
-    total_energy = sum(
-        entry.energy_consume
-        for entry in charger_report
-        if entry.start_time.year == current_year and entry.start_time.month == current_month
-    )
-
-    return total_energy
+    charger_report = energy_curd.get_monthly_energy_consumption_by_id(db, charger_id=charger_id)
+    return {"total": charger_report}
