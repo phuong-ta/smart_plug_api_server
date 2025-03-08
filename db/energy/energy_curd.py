@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import DateTime, desc
+from sqlalchemy import DateTime, desc, func, extract
+from datetime import datetime, timezone
+
 from . import models, schemas
 
 def create_energy_report(db: Session, report: schemas.EnergyReportCreate):
@@ -36,3 +38,22 @@ def delete_energy_report(db: Session, report_id: int):
 
 def get_reports_by_charger_id(db: Session, charger_id: int):
     return db.query(models.EnergyReport).filter(models.EnergyReport.charger_id == charger_id).all()
+
+
+def get_monthly_energy_consumption_by_id(db: Session, charger_id: int):
+    # Get the current year and month
+    current_year = datetime.now(timezone.utc).year
+    current_month = datetime.now(timezone.utc).month
+
+    # Query to sum energy consumption for the current month for the given charger_id
+    total_energy = (
+        db.query(func.sum(models.EnergyReport.energy_consume))
+        .filter(
+            models.EnergyReport.charger_id == charger_id,
+            extract('year', models.EnergyReport.start_time) == current_year,
+            extract('month', models.EnergyReport.start_time) == current_month
+        )
+        .scalar()
+    )
+
+    return total_energy if total_energy else 0.0  # Return 0.0 if no data found

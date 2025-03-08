@@ -34,3 +34,12 @@ def read_energy_report(report_id: int, db: Session = Depends(get_db)):
 @energy_router.get("/charger/{charger_id}", response_model=list[schemas.EnergyReport])
 def read_reports_by_charger_id(charger_id: int, db: Session = Depends(get_db)):
     return energy_curd.get_reports_by_charger_id(db, charger_id=charger_id)
+
+
+# Get a specific energy report by ID
+@energy_router.get("/energy_consumption/{charger_id}", response_model=list[schemas.EnergyReport])
+def count_monthly_energy(charger_id: int, db: Session = Depends(get_db)):
+    db_report = energy_curd.get_monthly_energy_consumption_by_id(db, charger_id=charger_id)
+    if db_report is None:
+        raise HTTPException(status_code=404, detail="Energy Report not found")
+    return db_report
