@@ -51,10 +51,9 @@ def read_reports_by_charger_id(charger_id: int, db: Session = Depends(get_db)):
     current_year = datetime.now().year
 
     total_energy = sum(
-        entry["energy_consume"]
+        entry.energy_consume
         for entry in charger_report
-        if datetime.fromisoformat(entry["start_time"]).year == current_year
-        and datetime.fromisoformat(entry["start_time"]).month == current_month
+        if entry.start_time.year == current_year and entry.start_time.month == current_month
     )
 
     return total_energy
