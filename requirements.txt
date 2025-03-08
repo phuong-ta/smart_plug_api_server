@@ -4,3 +4,4 @@ databases
 asyncpg
 sqlalchemy
 psycopg2
+pytz

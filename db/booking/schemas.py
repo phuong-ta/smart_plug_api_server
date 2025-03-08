@@ -3,8 +3,8 @@ from datetime import datetime
 
 class BookingBase(BaseModel):
     charger_id: int
-    start_time: datetime
-    end_time: datetime
+    booking_time: datetime
+    device_state: bool
 
 class BookingCreate(BookingBase):
     pass
