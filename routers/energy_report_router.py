@@ -38,12 +38,18 @@ def read_energy_report(report_id: int, db: Session = Depends(get_db)):
 def read_reports_by_charger_id(charger_id: int, db: Session = Depends(get_db)):
     return energy_curd.get_reports_by_charger_id(db, charger_id=charger_id)
 
+from pydantic import BaseModel
+
+
+class MonthlyReport(BaseModel):
+    charger_id: int
+    total_energy_this_month: float
 
 # Get a specific energy report by ID
-@energy_router.get("/energy_consumption/{charger_id}", response_model=list[schemas.EnergyReport])
+@energy_router.get("/energy_consumption/{charger_id}", response_model=list[MonthlyReport])
 async def read_reports_by_charger_id(charger_id: int, db: Session = Depends(get_db)):
     energy_consumption = energy_curd.get_monthly_energy_consumption_by_id(db, charger_id=charger_id)
-    print(f"charger_report: {energy_consumption}")
+    report = MonthlyReport(charger_id=charger_id,total_energy_this_month=energy_consumption)
     #return energy_curd.get_monthly_energy_consumption_by_id(db, charger_id=charger_id) # Return as a dict
 
-    return {"energy_consumption": f"{energy_consumption}"}
+    return [report]
