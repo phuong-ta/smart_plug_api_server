@@ -8,7 +8,7 @@ Base = declarative_base()
 
 # Define the EnergyReport model (table)
 class EnergyReport(Base):
-    __tablename__ = 'energy_report'
+    __tablename__ = 'energy_table'
 
     id = Column(Integer, primary_key=True, index=True)
     charger_id = Column(Integer)

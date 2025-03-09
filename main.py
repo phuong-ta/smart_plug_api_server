@@ -8,8 +8,8 @@ from routers.booking_router import booking_router
 from routers.energy_report_router import energy_router
 from routers.price_router import price_router
 
-from db.booking.models import Booking
-from db.energy.models import EnergyReport
+from db.booking.models import create_booking_table
+from db.energy.models import create_energy_table
 
 # Define allowed origins
 origins = [
@@ -23,8 +23,8 @@ async def lifespan(app: FastAPI):
     try:
         # Connect to the database asynchronously
         await database.connect()
-        Booking.create_table()
-        EnergyReport.create_energy_table()
+        create_booking_table()
+        create_energy_table()
         print("Connected to the database")
         yield
     except Exception as e:
