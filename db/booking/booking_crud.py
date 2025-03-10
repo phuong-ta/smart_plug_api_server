@@ -1,5 +1,8 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import DateTime, desc, asc
+#from sqlalchemy import DateTime, desc, asc
+from sqlalchemy import func, extract, cast, String, Integer, asc
+
+
 
 from . import models
 from . import schemas
@@ -14,9 +17,11 @@ def get_booking_by_id(db: Session, booking_id: int):
 def get_bookings(db: Session, skip: int = 0, limit: int = 100):
     finland_tz = pytz.timezone("Europe/Helsinki")  # Define Finland timezone
     current_time = datetime.now(finland_tz)  # Get current local time in Finland
+    # Convert to UTC if booking_time is stored in UTC
+    current_time_utc = current_time.astimezone(pytz.utc)
     return (
         db.query(models.Booking)
-        .filter(models.Booking.booking_time > current_time)
+        .filter(models.Booking.booking_time > current_time_utc)
         .order_by(asc(models.Booking.booking_time))  # Order by soonest bookings first
         .offset(skip)
         .limit(limit)
@@ -41,8 +46,10 @@ def update_booking(db: Session, booking_id: int, booking: schemas.BookingCreate)
     return db_booking
 
 def delete_booking(db: Session, booking_id: int):
-    db_booking = db.query(models.Booking).filter(models.Booking.id == booking_id).first()
+    db_booking = db.query(models.Booking).filter(cast(models.Booking.id, Integer) == int(booking_id)).first()
     if db_booking:
         db.delete(db_booking)
         db.commit()
     return db_booking
+
+# filter(cast(models.Booking.id, Integer) == int(booking_id)).first()
