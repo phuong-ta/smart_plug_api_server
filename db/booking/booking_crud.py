@@ -18,7 +18,7 @@ def get_bookings(db: Session, skip: int = 0, limit: int = 100):
     finland_tz = pytz.timezone("Europe/Helsinki")  # Define Finland timezone
     current_time = datetime.now(finland_tz)  # Get current local time in Finland
     # Convert to UTC if booking_time is stored in UTC
-    current_time_utc = current_time.astimezone(pytz.utc)
+    current_time_utc = current_time.strftime('%Y-%m-%dT%H:%M:%S')
     print(current_time_utc)
     return (
         db.query(models.Booking)
