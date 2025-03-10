@@ -19,6 +19,7 @@ def get_bookings(db: Session, skip: int = 0, limit: int = 100):
     current_time = datetime.now(finland_tz)  # Get current local time in Finland
     # Convert to UTC if booking_time is stored in UTC
     current_time_utc = current_time.astimezone(pytz.utc)
+    print(current_time_utc)
     return (
         db.query(models.Booking)
         .filter(models.Booking.booking_time > current_time_utc)
